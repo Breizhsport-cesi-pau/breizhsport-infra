@@ -20,10 +20,10 @@ spec:
       containers:
         - name: ms-users
           volumeMounts:
-            - mountPath: "app/keys"
+            - mountPath: "/usr/src/app/keys"
               name: jwt-rsa-keys
               readOnly: true
-          image: sacha2dev/breizhsport-front:develop
+          image: sacha2dev/breizhsport-user-service:develop
           env:
             - name: PORT
               value: "3001"
@@ -34,27 +34,27 @@ spec:
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: db_name
-                  key: ms-users
+                  key: db-name
+                  name: ms-users
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
                   name: ms-users
-                  key: db_user
+                  key: db-user
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ms-users
-                  key: db_password
+                  key: db-password
             - name: FIRST_USER_EMAIL
               valueFrom:
                 secretKeyRef:
                   name: ms-users
-                  key: first_user_email
+                  key: first-user-email
             - name: FIRST_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: FIRST_USER_PASSWORD
+                  key: first-user-password
                   name: ms-users
           ports:
             - containerPort: 3001

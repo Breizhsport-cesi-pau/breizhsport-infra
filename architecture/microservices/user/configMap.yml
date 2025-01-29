@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: ms-users
 data:
-  db_name: "users"
+  db-name: "users"
