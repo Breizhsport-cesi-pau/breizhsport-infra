@@ -23,3 +23,10 @@ spec:
                 name: ms-products
                 port:
                   number: 80
+          - path: /user(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ms-users
+                port:
+                  number: 80

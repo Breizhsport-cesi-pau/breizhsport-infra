@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ms-products
+  name: ms-users
 spec:
   selector:
     matchLabels:
-      app: ms-products
+      app: ms-users
   replicas: 3
   strategy:
     type: RollingUpdate
@@ -15,37 +15,47 @@ spec:
   template:
     metadata:
       labels:
-        app: ms-products
+        app: ms-users
     spec:
       containers:
-        - name: ms-products
+        - name: ms-users
           volumeMounts:
             - mountPath: "app/keys"
               name: jwt-rsa-keys
               readOnly: true
-          image: sacha2dev/breizhsport-user-service:develop
+          image: sacha2dev/breizhsport-front:develop
           env:
             - name: PORT
               value: "3001"
             - name: DB_HOST
-              value: db-products
+              value: db-users
             - name: DB_DIALECT
               value: "mysql"
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: db_name
-                  key: ms-products
+                  key: ms-users
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: ms-products
+                  name: ms-users
                   key: db_user
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ms-products
+                  name: ms-users
                   key: db_password
+            - name: FIRST_USER_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: ms-users
+                  key: first_user_email
+            - name: FIRST_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: FIRST_USER_PASSWORD
+                  name: ms-users
           ports:
             - containerPort: 3001
           resources:

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db-users
+spec:
+  replicas: 1
+  serviceName: db-users
+  selector:
+    matchLabels:
+      app: db-users
+  template:
+    metadata:
+      labels:
+        app: db-users
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: db-users
+          image: mariadb:lts
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MARIADB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: db_name
+                  name: ms-users
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: ms-users
+                  name: db_user
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: ms-users
+                  name: db_password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-users
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: db-users
