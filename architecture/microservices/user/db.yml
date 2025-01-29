@@ -23,18 +23,20 @@ spec:
             - name: MARIADB_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  key: db_name
+                  key: db-name
                   name: ms-users
             - name: MARIADB_USER
               valueFrom:
                 secretKeyRef:
-                  key: ms-users
-                  name: db_user
+                  key: db-user
+                  name: ms-users
             - name: MARIADB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: ms-users
-                  name: db_password
+                  name: ms-users
+                  key: db-password
+            - name: MARIADB_ROOT_PASSWORD
+              value: iofdcezdzeidjiadi
 ---
 apiVersion: v1
 kind: Service
