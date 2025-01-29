@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-products
+spec:
+  selector:
+    matchLabels:
+      app: ms-products
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: ms-products
+    spec:
+      containers:
+        - name: ms-products
+          image: sacha2dev/breizhsport-front:develop
+          env:
+            - name: PORT
+              value: "3001"
+            - name: DB_HOST
+              value: db-products
+            - name: DB_DIALECT
+              value: "mysql"
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db_name
+                  key: ms-products
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ms-products
+                  key: db_user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ms-products
+                  key: db_password
+          ports:
+            - containerPort: 3001
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 150Mi
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3001
+            initialDelaySeconds: 15

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db-products
+spec:
+  replicas: 1
+  serviceName: db-products
+  selector:
+    matchLabels:
+      app: db-products
+  template:
+    metadata:
+      labels:
+        app: db-products
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: db-products
+          image: mariadb:lts
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MARIADB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: db_name
+                  name: ms-products
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: ms-products
+                  name: db_user
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: ms-products
+                  name: db_password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-products
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: db-products

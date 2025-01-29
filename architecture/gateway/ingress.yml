@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  tls:
+    - hosts:
+        - api.breizhsport.duckdns.org
+      secretName: breizhsport-tls-secret-staging
+  rules:
+    - host: api.breizhsport.duckdns.org
+      http:
+        paths:
+          - path: /product(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ms-products
+                port:
+                  number: 80
