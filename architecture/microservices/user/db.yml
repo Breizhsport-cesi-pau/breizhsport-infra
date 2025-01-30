@@ -43,6 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: db-users
+  namespace: prod
 spec:
   ports:
     - port: 3306
