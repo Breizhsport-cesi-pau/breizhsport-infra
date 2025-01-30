@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: front-end
+  namespace: prod
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging

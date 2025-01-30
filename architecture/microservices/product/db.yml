@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: db-products
+  namespace: prod
 spec:
   replicas: 1
   serviceName: db-products
