@@ -41,6 +41,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: db-products
+  namespace: prod
 spec:
   ports:
     - port: 3306
