@@ -20,7 +20,6 @@ on:
 
 jobs:
   modify_image_version:
-    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
