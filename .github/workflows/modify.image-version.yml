@@ -35,4 +35,3 @@ jobs:
           repository: https://github.com/Breizhsport-cesi-pau/breizhsport-infra
           message: ${{inputs.commit_message}}
           token: ${{secrets.GITHUB_TOKEN}}
-          workDir: other-repo
