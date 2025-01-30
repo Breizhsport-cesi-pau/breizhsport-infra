@@ -27,7 +27,7 @@ jobs:
         with:
           repository: Breizhsport-cesi-pau/breizhsport-infra/
           path: other-repo
-          token: ${{ secrets.TOKEN_GIT }}
+          token: ${{ secrets.TOKEN_GITHUB }}
       - name: Update values and commit
         uses: fjogeleit/yaml-update-action@main
         with:
