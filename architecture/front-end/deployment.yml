@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: front-end
-          image: keke65/breizhsport-front:develop
+          image: keke65/breizhsport-front:v0.0.3
           ports:
             - containerPort: 3000
           resources:
