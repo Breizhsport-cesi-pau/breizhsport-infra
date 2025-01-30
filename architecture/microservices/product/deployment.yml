@@ -21,7 +21,7 @@ spec:
       containers:
         - name: ms-products
           volumeMounts:
-            - mountPath: "app/keys"
+            - mountPath: "/usr/src/app/keys"
               name: jwt-rsa-keys
               readOnly: true
           image: sacha2dev/breizhsport-user-service:develop
