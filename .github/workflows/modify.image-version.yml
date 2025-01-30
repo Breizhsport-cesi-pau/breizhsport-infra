@@ -1,0 +1,38 @@
+name: Modify image version
+
+on:
+  workflow_call:
+    inputs:
+      yaml_path:
+        type: string
+        required: true
+      new_image_version:
+        type: string
+        required: true
+      commit_message:
+        type: string
+        required: true
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+      DOCKER_IMAGE:
+        required: true
+
+jobs:
+  modify_image_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Update values and commit
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: ${{inputs.yaml_path}}
+          propertyPath: "spec.template.spec.containers[0].image"
+          value: "${{secrets.DOCKER_IMAGE}}:${{inputs.new_image_version}}"
+          commitChange: true
+          branch: main
+          repository: https://github.com/Breizhsport-cesi-pau/breizhsport-infra
+          message: ${{inputs.commit_message}}
+          token: ${{secrets.GITHUB_TOKEN}}
+          workDir: other-repo
