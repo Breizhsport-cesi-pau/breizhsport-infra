@@ -24,18 +24,18 @@ spec:
             - name: MARIADB_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  key: db_name
+                  key: db-name
                   name: ms-products
             - name: MARIADB_USER
               valueFrom:
                 secretKeyRef:
-                  key: ms-products
-                  name: db_user
+                  name: ms-products
+                  key: db-user
             - name: MARIADB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: ms-products
-                  name: db_password
+                  name: ms-products
+                  key: db-password
 ---
 apiVersion: v1
 kind: Service

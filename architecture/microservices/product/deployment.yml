@@ -35,18 +35,18 @@ spec:
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: db_name
-                  key: ms-products
+                  name: ms-products
+                  key: db-name
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
                   name: ms-products
-                  key: db_user
+                  key: db-user
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ms-products
-                  key: db_password
+                  key: db-password
           ports:
             - containerPort: 3001
           resources:
