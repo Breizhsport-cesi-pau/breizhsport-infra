@@ -36,6 +36,8 @@ spec:
                 secretKeyRef:
                   name: ms-products
                   key: db-password
+            - name: MARIADB_ROOT_PASSWORD
+              value: temp
 ---
 apiVersion: v1
 kind: Service
