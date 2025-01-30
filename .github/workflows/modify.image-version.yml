@@ -24,6 +24,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          repository: Breizhsport-cesi-pau/breizhsport-infra/
+          path: other-repo
+          token: ${{ secrets.TOKEN_GIT }}
       - name: Update values and commit
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -32,6 +36,7 @@ jobs:
           value: "${{secrets.DOCKER_IMAGE}}:${{inputs.new_image_version}}"
           commitChange: true
           branch: main
-          repository: https://github.com/Breizhsport-cesi-pau/breizhsport-infra
+          repository: Breizhsport-cesi-pau/breizhsport-infra
           message: ${{inputs.commit_message}}
           token: ${{secrets.TOKEN_GITHUB}}
+          workDir: other-repo
