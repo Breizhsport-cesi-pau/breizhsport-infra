@@ -17,7 +17,8 @@ on:
         required: true
       DOCKER_IMAGE:
         required: true
-
+permissions:
+  contents: write
 jobs:
   modify_image_version:
     runs-on: ubuntu-latest
