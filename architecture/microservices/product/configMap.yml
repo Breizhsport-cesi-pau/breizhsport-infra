@@ -4,4 +4,4 @@ metadata:
   name: ms-products
   namespace: prod
 data:
-  db_name: "products"
+  db-name: "products"
