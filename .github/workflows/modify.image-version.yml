@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: Breizhsport-cesi-pau/breizhsport-infra/
+          repository: Breizhsport-cesi-pau/breizhsport-infra
           path: other-repo
           token: ${{ secrets.TOKEN_GITHUB }}
       - name: Update values and commit
