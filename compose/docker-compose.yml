@@ -1,0 +1,66 @@
+services:
+  front-end:
+    image: keke65/breizhsport-front:develop
+    ports:
+      - "3000:3000"
+  db-products:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_pass
+
+  ms-products:
+    image: sacha2dev/breizhsport-product-service:develop
+    restart: always
+    depends_on:
+      - db-products
+    environment:
+      DB_NAME: test_db
+      DB_USER: test_user
+      DB_PASSWORD: test_pass
+      DB_HOST: db-products
+      DB_DIALECT: mysql
+      DB_POOL: 5
+    volumes:
+      - "./keys:/usr/src/app/keys:ro"
+  db-users:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_pass
+
+  ms-users:
+    image: sacha2dev/breizhsport-user-service:develop
+    restart: always
+    depends_on:
+      - db-users
+    environment:
+      DB_NAME: test_db
+      DB_USER: test_user
+      DB_PASSWORD: test_pass
+      DB_HOST: db-users
+      DB_DIALECT: mysql
+      DB_POOL: 5
+      FIRST_USER_EMAIL: john.doe@gmail.com
+      FIRST_USER_PASSWORD: OnMeriteUnGrandA
+    volumes:
+      - "./keys:/usr/src/app/keys:ro"
+  gateway:
+    image: nginx
+    depends_on:
+      - ms-users
+      - ms-products
+      - front-end
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+    environment:
+      - NGINX_PORT=80

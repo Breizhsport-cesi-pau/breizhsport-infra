@@ -5,17 +5,11 @@ metadata:
   namespace: prod
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-staging
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
-  tls:
-    - hosts:
-        - breizhsport.duckdns.org
-      secretName: breizhsport-tls-secret-staging
   rules:
-    - host: breizhsport.duckdns.org
-      http:
+    - http:
         paths:
           - path: /(.*)
             pathType: ImplementationSpecific
