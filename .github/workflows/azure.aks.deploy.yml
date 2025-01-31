@@ -34,6 +34,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: Checkout
+      - name: Checkout infra repo
+        uses: actions/checkout@v4
+        with:
+          repository: Breizhsport-cesi-pau/breizhsport-infra
+          path: other-repo
+          ref: env/test
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Azure login
         uses: azure/login@v2
         with:
@@ -68,10 +75,9 @@ jobs:
           echo waiting for the ip address to pick up
           sleep 30s
       - name: Deploy front app
-        #   TODO: Refactor with current repo
         run: |
-          kubectl apply -f test.yaml
-          kubectl set image deployment/echo-app echo-app=keke65/breizhsport-front:${{inputs.front_tag}}
+          kubectl apply -R -f ./other-repo/architecture
+          kubectl set image deployment/front-end front-end=keke65/breizhsport-front:${{inputs.front_tag}}
         shell: bash
       - name: Get public IP Adress
         id: ipAddress
