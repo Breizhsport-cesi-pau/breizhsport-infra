@@ -6,6 +6,9 @@ on:
       node-version:
         type: string
         required: true
+    secrets:
+      TOKEN_GITHUB:
+        required: true
 
 jobs:
   build_and_test:
