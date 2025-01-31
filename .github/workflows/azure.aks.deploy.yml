@@ -76,8 +76,9 @@ jobs:
           sleep 30s
       - name: Deploy front app
         run: |
+          kubectl create namespace prod
           kubectl apply -R -f ./other-repo/architecture
-          kubectl set image deployment/front-end front-end=keke65/breizhsport-front:${{inputs.front_tag}}
+          kubectl set image deployment/front-end front-end=keke65/breizhsport-front:${{inputs.front_tag}} -n prod
         shell: bash
       - name: Get public IP Adress
         id: ipAddress
