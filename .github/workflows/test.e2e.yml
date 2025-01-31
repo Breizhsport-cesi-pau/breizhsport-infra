@@ -23,7 +23,7 @@ jobs:
           ref: env/test
           token: ${{ secrets.TOKEN_GITHUB }}
       - name: Launch docker compose
-        run: docker compose -f ./other-repo/compose/docker-compose.yml -f ./docker-compose.yml up
+        run: docker compose -f ./other-repo/compose/docker-compose.yml -f ./docker-compose.yml up -d
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
