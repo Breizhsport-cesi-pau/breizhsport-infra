@@ -13,7 +13,7 @@ spec:
   tls:
     - hosts:
         - api.breizhsport.duckdns.org
-      secretName: breizhsport-tls-secret-production
+      secretName: breizhsport-tls-secret-api
   rules:
     - host: api.breizhsport.duckdns.org
       http:
