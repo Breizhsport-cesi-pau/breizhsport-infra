@@ -8,6 +8,7 @@ metadata:
     cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-production
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/hsts: "false"
 spec:
   tls:
     - hosts:
