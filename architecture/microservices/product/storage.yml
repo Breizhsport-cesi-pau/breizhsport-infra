@@ -1,7 +1,7 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: ms-product
+  name: ms-products
   namespace: prod
 provisioner: file.csi.azure.com
 allowVolumeExpansion: true
@@ -19,12 +19,12 @@ parameters:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ms-product
+  name: ms-products
   namespace: prod
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: ms-product
+  storageClassName: ms-products
   resources:
     requests:
       storage: 8Gi
