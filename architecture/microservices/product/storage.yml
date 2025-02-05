@@ -2,6 +2,7 @@ kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
   name: ms-product
+  namespace: prod
 provisioner: file.csi.azure.com
 allowVolumeExpansion: true
 mountOptions:
@@ -19,6 +20,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ms-product
+  namespace: prod
 spec:
   accessModes:
     - ReadWriteMany
