@@ -24,6 +24,8 @@ spec:
             - mountPath: "/usr/src/app/keys"
               name: jwt-rsa-keys
               readOnly: true
+            - mountPath: "/usr/src/app/static"
+              name: static-files
           image: sacha2dev/breizhsport-user-service:develop
           env:
             - name: PORT
@@ -71,3 +73,6 @@ spec:
         - name: jwt-rsa-keys
           secret:
             secretName: jwt-rsa-keys
+        - name: static-files
+          persistentVolumeClaim:
+            claimName: ms-product
