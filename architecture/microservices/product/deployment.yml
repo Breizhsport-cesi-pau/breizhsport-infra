@@ -24,7 +24,7 @@ spec:
             - mountPath: "/usr/src/app/keys"
               name: jwt-rsa-keys
               readOnly: true
-            - mountPath: "/usr/src/app/static"
+            - mountPath: "/usr/src/app/static/pictures"
               name: static-files
           image: sacha2dev/breizhsport-product-service:develop
           env:
