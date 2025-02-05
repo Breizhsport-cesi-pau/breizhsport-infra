@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: front-end
-          image: keke65/breizhsport-front:v0.0.3
+          image: keke65/breizhsport-front:v0.0.4
           env:
             - name: PUBLIC_MS_USER
               valueFrom:
