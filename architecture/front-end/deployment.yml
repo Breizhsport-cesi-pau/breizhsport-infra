@@ -20,7 +20,18 @@ spec:
     spec:
       containers:
         - name: front-end
-          image: keke65/breizhsport-front:v0.0.2
+          image: keke65/breizhsport-front:v0.0.3
+          env:
+            - name: PUBLIC_MS_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: front-end
+                  key: ms-users
+            - name: PUBLIC_MS_PRODUCT
+              valueFrom:
+                configMapKeyRef:
+                  name: front-end
+                  key: ms-products
           ports:
             - containerPort: 3000
           resources:

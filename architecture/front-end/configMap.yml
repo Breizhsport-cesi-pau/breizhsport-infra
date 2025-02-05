@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-end
+  namespace: prod
+data:
+  ms-products: "https://api.breizhsport.duckdns.org/product"
+  ms-users: "https://api.breizhsport.duckdns.org/user"
