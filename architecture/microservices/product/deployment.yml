@@ -26,7 +26,7 @@ spec:
               readOnly: true
             - mountPath: "/usr/src/app/static"
               name: static-files
-          image: sacha2dev/breizhsport-user-service:develop
+          image: sacha2dev/breizhsport-product-service:develop
           env:
             - name: PORT
               value: "3001"
