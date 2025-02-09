@@ -78,7 +78,7 @@ jobs:
           "
 
       - name: Exécution des migrations & seed database
-        run: pnpm run migrate
+        run: pnpm run sequelize db:migrate
 
       - name: Exécution des tests unitaires et d'intégration avec couverture
         run: pnpm run test:cov
