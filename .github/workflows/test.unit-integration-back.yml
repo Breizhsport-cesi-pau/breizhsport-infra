@@ -41,20 +41,6 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v4
 
-      - name: Création des fichiers de clés RSA
-        run: |
-          mkdir -p keys
-          echo "${{ secrets.PRIVATE_KEY }}" > keys/rsa.key
-          echo "${{ secrets.PUBLIC_KEY }}" > keys/rsa.key.pub
-          chmod 600 keys/rsa.key keys/rsa.key.pub
-
-      - name: Vérification du contenu des clés RSA
-        run: |
-          echo "🔍 Affichage des clés RSA..."
-          ls -l keys
-          cat keys/rsa.key
-          cat keys/rsa.key.pub
-
       - name: Installation de pnpm
         uses: pnpm/action-setup@v4
         with:
