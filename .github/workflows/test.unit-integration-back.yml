@@ -11,42 +11,87 @@ jobs:
   build_and_test:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_pass
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     env:
       DB_NAME: test_db
       DB_USER: test_user
       DB_PASSWORD: test_pass
-      DB_HOST: db-user
+      DB_HOST: 127.0.0.1
       DB_DIALECT: mysql
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Create RSA Key files
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Création des fichiers de clés RSA
         run: |
           mkdir -p keys
           echo "${{ secrets.PRIVATE_KEY }}" > keys/rsa.key
           echo "${{ secrets.PUBLIC_KEY }}" > keys/rsa.key.pub
           chmod 600 keys/rsa.key keys/rsa.key.pub
-      - name: Install pnpm
+
+      - name: Installation de pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
-      - name: Use Node.js ${{ inputs.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node-version }}
-          cache: "pnpm"
-      - name: Install dependencies
+
+      - name: Installation des dépendances
         run: pnpm install
-      - name: Run unit & integration tests & coverage
+
+      - name: Attente de la disponibilité de MySQL
+        run: |
+          echo " Attente de la connexion à MySQL..."
+          until mysqladmin ping -h 127.0.0.1 --silent; do
+            echo "MySQL pas encore prêt... attente 2s"
+            sleep 2
+          done
+          echo " MySQL est prêt !"
+
+      - name: Vérification de la connexion MySQL avec Sequelize
+        run: |
+          node -e "
+          const { Sequelize } = require('sequelize');
+          const sequelize = new Sequelize(
+            process.env.DB_NAME,
+            process.env.DB_USER,
+            process.env.DB_PASSWORD,
+            { host: process.env.DB_HOST, dialect: process.env.DB_DIALECT }
+          );
+          sequelize.authenticate()
+            .then(() => console.log(' Connexion Sequelize réussie'))
+            .catch(err => { console.error(' Connexion Sequelize échouée', err); process.exit(1); });
+          "
+
+      - name: Exécution des migrations & seed database
+        run: pnpm run migrate
+
+      - name: Exécution des tests unitaires et d'intégration avec couverture
         run: pnpm run test:cov
-      - name: Upload tests results artifacts
+
+      - name: Upload des résultats des tests
         uses: actions/upload-artifact@v4
         with:
           name: vitest-tests-result
           path: tests-result/vitest
           include-hidden-files: true
           retention-days: 3
-      - name: Upload coverage artifacts
+
+      - name: Upload des fichiers de couverture
         uses: actions/upload-artifact@v4
         with:
           name: coverage
