@@ -77,8 +77,11 @@ jobs:
             .catch(err => { console.error(' Connexion Sequelize échouée', err); process.exit(1); });
           "
 
-      - name: Exécution des migrations & seed database
-        run: pnpm run sequelize db:migrate
+      - name: Exécution des migrations
+        run: pnpx sequelize-cli db:migrate
+
+      - name: Run seeders
+        run: pnpx sequelize-cli db:seed:all
 
       - name: Exécution des tests unitaires et d'intégration avec couverture
         run: pnpm run test:cov
