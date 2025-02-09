@@ -19,6 +19,8 @@ jobs:
           MYSQL_DATABASE: test_db
           MYSQL_USER: test_user
           MYSQL_PASSWORD: test_pass
+          FIRST_USER_EMAIL: test@test.com
+          FIRST_USER_PASSWORD: admin
         ports:
           - 3306:3306
         options: >-
