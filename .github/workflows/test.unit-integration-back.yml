@@ -20,6 +20,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Create RSA Key files
+        run: |
+          mkdir -p keys
+          echo "${{ secrets.PRIVATE_KEY }}" > keys/rsa.key
+          echo "${{ secrets.PUBLIC_KEY }}" > keys/rsa.key.pub
+          chmod 600 keys/rsa.key keys/rsa.key.pub
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
