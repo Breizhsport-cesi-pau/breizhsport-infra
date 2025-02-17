@@ -24,7 +24,7 @@ spec:
             - mountPath: "/usr/src/app/keys"
               name: jwt-rsa-keys
               readOnly: true
-          image: sacha2dev/breizhsport-user-service:dev
+          image: sacha2dev/breizhsport-user-service:develop
           env:
             - name: PORT
               value: "3001"
